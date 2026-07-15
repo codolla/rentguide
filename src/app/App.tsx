@@ -7744,7 +7744,7 @@ function AuthPage({
                 </div>
                 {role === "student" ? (
                   <input
-                    placeholder="Matric number (e.g. AAMUSTED/2021/CS/001)"
+                    placeholder="Index number (e.g. 5211040001)"
                     value={signupIdentifier}
                     onChange={(event) => setSignupIdentifier(event.target.value)}
                     className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-200 placeholder:text-slate-400"
