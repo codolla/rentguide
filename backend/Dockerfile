@@ -19,8 +19,10 @@ WORKDIR /var/www/html
 COPY . .
 COPY --from=vendor /app/vendor ./vendor
 COPY deploy/entrypoint.sh /usr/local/bin/rentguide-entrypoint
+COPY deploy/apache.conf /etc/apache2/conf-available/rentguide.conf
 
 RUN chmod +x /usr/local/bin/rentguide-entrypoint \
+    && a2enconf rentguide \
     && mkdir -p storage/app/public storage/framework/cache/data storage/framework/sessions storage/framework/views bootstrap/cache \
     && rm -f public/storage \
     && ln -s /var/www/html/storage/app/public public/storage \
