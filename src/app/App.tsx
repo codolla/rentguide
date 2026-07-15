@@ -593,6 +593,7 @@ function DashboardSidebar({
   navigate: (p: Page) => void;
   activePage: Page;
 }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
   const studentNav = [
     { icon: <LayoutDashboard className="w-4 h-4" />, label: "Dashboard", page: "student-dashboard" as Page },
     { icon: <Search className="w-4 h-4" />, label: "Find Rooms", page: "listings" as Page },
@@ -634,10 +635,21 @@ function DashboardSidebar({
   };
   const roleLabels = { student: "Student", landlord: "Landlord", admin: "Admin" };
 
-  return (
-    <aside className="hidden lg:flex w-60 flex-shrink-0 bg-white border-r border-slate-100 flex-col h-screen sticky top-0">
+  const navigateFromSidebar = (page: Page) => {
+    setMobileOpen(false);
+    navigate(page);
+  };
+
+  const signOut = () => {
+    setMobileOpen(false);
+    clearSession();
+    navigate("auth");
+  };
+
+  const sidebarContent = () => (
+    <>
       <div className="px-5 py-5 border-b border-slate-100">
-        <button onClick={() => navigate("landing")} className="flex items-center gap-2">
+        <button onClick={() => navigateFromSidebar("landing")} className="flex items-center gap-2">
           <LogoMark />
           <span className="font-bold text-slate-900 text-sm leading-tight">AAMUSTED Rent Guide</span>
         </button>
@@ -653,7 +665,7 @@ function DashboardSidebar({
         {navItems.map((item) => (
           <button
             key={item.label}
-            onClick={() => navigate(item.page)}
+            onClick={() => navigateFromSidebar(item.page)}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors text-left ${
               activePage === item.page
                 ? "bg-rose-50 text-rose-700 font-semibold"
@@ -667,17 +679,51 @@ function DashboardSidebar({
       </nav>
       <div className="px-3 py-4 border-t border-slate-100">
         <button
-          onClick={() => {
-            clearSession();
-            navigate("auth");
-          }}
+          onClick={signOut}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors"
         >
           <LogOut className="w-4 h-4" />
           Sign Out
         </button>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      <button
+        onClick={() => setMobileOpen(true)}
+        className="lg:hidden fixed top-3 left-4 z-40 w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-700"
+        aria-label="Open navigation menu"
+        aria-expanded={mobileOpen}
+      >
+        <Menu className="w-5 h-5" />
+      </button>
+
+      {mobileOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex">
+          <button
+            className="absolute inset-0 bg-slate-950/45 backdrop-blur-[1px]"
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close navigation menu"
+          />
+          <aside className="relative w-[min(19rem,86vw)] h-full bg-white shadow-2xl flex flex-col animate-in slide-in-from-left duration-200">
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="absolute top-4 right-3 z-10 w-9 h-9 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-500"
+              aria-label="Close navigation menu"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            {sidebarContent()}
+          </aside>
+        </div>
+      )}
+
+      <aside className="hidden lg:flex w-60 flex-shrink-0 bg-white border-r border-slate-100 flex-col h-screen sticky top-0">
+        {sidebarContent()}
+      </aside>
+    </>
   );
 }
 
@@ -769,14 +815,7 @@ function TopBar({ title, navigate }: { title: string; navigate: (p: Page) => voi
 
   return (
     <div className="h-16 bg-white border-b border-slate-100 flex items-center justify-between px-6 sticky top-0 z-10 flex-shrink-0">
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => navigate("landing")}
-          className="lg:hidden"
-          aria-label="Go home"
-        >
-          <LogoMark />
-        </button>
+      <div className="flex items-center gap-3 pl-12 lg:pl-0">
         <h1 className="text-base font-semibold text-slate-900">{title}</h1>
       </div>
       <div className="flex items-center gap-3">
