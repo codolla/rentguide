@@ -7501,9 +7501,9 @@ function AuthPage({
           <img
             src={heroCampusImage}
             alt="Campus"
-            className="w-full h-full object-cover opacity-15"
+            className="w-full h-full object-cover opacity-55"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-rose-950/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-rose-950/45 via-rose-900/15 to-transparent" />
         </div>
         <button
           onClick={() => navigate("landing")}
