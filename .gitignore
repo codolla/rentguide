@@ -1,0 +1,15 @@
+.DS_Store
+.env
+node_modules/
+dist/
+backend/.env
+backend/vendor/
+backend/database/*.sqlite
+backend/storage/app/public/*
+backend/storage/logs/*.log
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/public/storage
+
+!backend/storage/app/public/.gitignore
