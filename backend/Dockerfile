@@ -3,7 +3,7 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libzip-dev unzip \
@@ -29,4 +29,3 @@ RUN chmod +x /usr/local/bin/rentguide-entrypoint \
 EXPOSE 80
 ENTRYPOINT ["rentguide-entrypoint"]
 CMD ["apache2-foreground"]
-

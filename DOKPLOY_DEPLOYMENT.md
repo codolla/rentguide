@@ -3,7 +3,7 @@
 This repository deploys as one public web service plus two private services:
 
 - `frontend`: React static build and reverse proxy, port `80`
-- `backend`: Laravel API, internal port `80`
+- `rentguide-backend`: Laravel API, internal port `80`
 - `database`: MariaDB with a persistent named volume
 
 The frontend proxies `/api` and `/storage` to Laravel, so only the `frontend`
@@ -55,7 +55,7 @@ Compose domain changes only take effect after a redeploy.
 ## 5. Initialize demo data once
 
 The backend runs migrations automatically on every release. For the first
-temporary deployment, open the `backend` service terminal and run:
+temporary deployment, open the `rentguide-backend` service terminal and run:
 
 ```bash
 php artisan db:seed --force
@@ -74,4 +74,3 @@ curl https://YOUR_HOST/api/listings
 Also verify login, an image upload, and that the image still exists after a
 redeploy. MariaDB data and uploads are held in the named volumes
 `database_data` and `uploads`.
-

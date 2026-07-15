@@ -9,10 +9,10 @@ services:
     expose:
       - "80"
     depends_on:
-      backend:
+      rentguide-backend:
         condition: service_started
 
-  backend:
+  rentguide-backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
